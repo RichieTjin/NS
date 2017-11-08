@@ -1,30 +1,22 @@
-# importeren van de modules
 import xmltodict
 import requests
 from requests.auth import HTTPBasicAuth
 
+url = "https://webservices.ns.nl/ns-api-stations-v2"
+naamEnWachtwoord = HTTPBasicAuth("richietjin@gmail.com", "JAavldI8fR8iwjT540mjS4TuJ4d4BwFwbDkhV3SVvJZcqa0kX0a3Xg")
+response = requests.post(url, auth=naamEnWachtwoord)
 
+xmltodict = xmltodict.parse(response.content)
 
-
-def request():
-    # dit is de locatie van de API
-    url = "https://webservices.ns.nl/ns-api-stations-v2"
-    
-    naamEnWachtwoord = HTTPBasicAuth("richietjin@gmail.com", "JAavldI8fR8iwjT540mjS4TuJ4d4BwFwbDkhV3SVvJZcqa0kX0a3Xg")
-    response = requests.post(url, auth=naamEnWachtwoord)
-    xmltodict = xmltodict.parse(response.content)
-
-
-#functie om beginstation op te zoeken
 def beginstation(stations_namen):
     while True:
-        beginstation = str(input('Wat is je beginstation? : ')) 
+        beginstation = str(input('Wat is je beginstation? : '))
         if beginstation in stations_namen:
             return beginstation
         else:
             print('Verkeerde invoer')
 
-#functie om eindstation op te zoeken
+
 def eindstation(stations_namen):
     while True:
         eindstation = str(input('Wat is je eindstation? : '))
@@ -33,7 +25,7 @@ def eindstation(stations_namen):
         else:
             print('verkeerde invoer')
 
-# functie om de link te creeeren om de informatie van de reis te kunnen weergeven
+
 def get_url():
     stations_namen = []
     for stations in xmltodict['Stations']['Station']:
@@ -48,15 +40,17 @@ def get_url():
         woord2) + "&departure=true"
     return url_tijden
 
-#functie om de link om te zetten in informatie en in een tabel te zetten
+
 def get_result():
     import xmltodict
-    import request.requests
+    import requests
     from requests.auth import HTTPBasicAuth
 
-    request.url = str(get_url())
+    url = str(get_url())
 
-    print(request)
+    naamEnWachtwoord = HTTPBasicAuth("richietjin@gmail.com", "JAavldI8fR8iwjT540mjS4TuJ4d4BwFwbDkhV3SVvJZcqa0kX0a3Xg")
+    response = requests.get(url, auth=naamEnWachtwoord)
+    xmltodict = xmltodict.parse(response.content)
 
     for tijden in xmltodict['ReisMogelijkheden']['ReisMogelijkheid']:
         print('AantalOverstappen: ' + tijden['AantalOverstappen'])
