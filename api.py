@@ -8,7 +8,6 @@ response = requests.post(url, auth=naamEnWachtwoord)
 
 xmltodict = xmltodict.parse(response.content)
 
-
 def beginstation(stations_namen):
     while True:
         beginstation = str(input('Wat is je beginstation? : '))
@@ -30,6 +29,8 @@ def eindstation(stations_namen):
 def get_url():
     stations_namen = []
     for stations in xmltodict['Stations']['Station']:
+        stations_namen.append(stations['Namen']['Kort'])
+        stations_namen.append(stations['Namen']['Middel'])
         stations_namen.append(stations['Namen']['Lang'])
 
     woord1 = beginstation(stations_namen).replace(" ", "+")
@@ -37,8 +38,6 @@ def get_url():
 
     url_tijden = "http://webservices.ns.nl/ns-api-treinplanner?fromStation=" + str(woord1) + "&toStation=" + str(
         woord2) + "&departure=true"
-    # url_test = "http://webservices.ns.nl/ns-api-treinplanner?fromStation=Utrecht+Centraal&toStation=Rotterdam+Centraal&departure=true"
-
     return url_tijden
 
 
@@ -52,8 +51,6 @@ def get_result():
     naamEnWachtwoord = HTTPBasicAuth("richietjin@gmail.com", "JAavldI8fR8iwjT540mjS4TuJ4d4BwFwbDkhV3SVvJZcqa0kX0a3Xg")
     response = requests.get(url, auth=naamEnWachtwoord)
     xmltodict = xmltodict.parse(response.content)
-
-    vertrek_tijden = []
 
     for tijden in xmltodict['ReisMogelijkheden']['ReisMogelijkheid']:
         print('AantalOverstappen: ' + tijden['AantalOverstappen'])
@@ -90,9 +87,10 @@ def get_result():
                     print('Tijd: ' + ReisStop['Tijd'][11:16])
                     if 'Spoor' in ReisStop:
                         print('Spoor: ' + ReisStop['Spoor']['#text'])
-
             except TypeError:
                 continue
+
+        print(' ')
 
 
 get_result()
