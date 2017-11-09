@@ -6,7 +6,7 @@ stations_names = api.get_station_names()
 nameAndPassword = api.get_nameAndPassword()
 
 def get_url():
-    """Returns the URL of the API"""
+    """Return the URL of the API"""
     word1 = startstation(stations_names).replace(" ", "+")
     word2 = endstation(stations_names).replace(" ", "+")
 
