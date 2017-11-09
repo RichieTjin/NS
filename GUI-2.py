@@ -48,11 +48,6 @@ logo = Image.open("nslogo.png")
 tkimage = ImageTk.PhotoImage(logo)
 tk.Label(topFrame, bg=background_yellow, image=tkimage).place(x=30, y=25)
 
-# top logo
-# ns_logo = PhotoImage(file='nslogo.png')
-# label = Label(root, image=ns_logo)
-# label.pack()
-
 # title
 title = Label(master=topFrame, text="Reisoverzicht", fg=ns_blue, bg=background_yellow, font=main_title())
 title.place(x=390,y=25, width=500)
@@ -68,12 +63,28 @@ Frame2 = Frame(master=mainFrame, bg="white")
 # blue stripe
 Frame2_label = Label(master=Frame2, bg=ns_blue, height=50)
 Frame2_label.pack(side=LEFT)
-Frame2_label_text = Label(master=Frame2, text="13:37", bg="white", padx=20, fg=ns_blue, font=text_bold())
-Frame2_label_text.pack(side=LEFT)
+Frame2_label_text_start = Label(master=Frame2, text="13;37", bg="white", padx=20, fg=ns_blue, font=text_bold())
+Frame2_label_text_start.pack(side=LEFT)
+
+# spoor
+Frame2_label_text_end = Label(master=Frame2, text="14;00", bg="white", padx=20, fg=ns_blue, font=text_bold())
+Frame2_label_text_end.pack(side=LEFT)
+
+# spoor
+Frame2_label_text_track = Label(master=Frame2, text="spoor: 4", bg="white", padx=20, fg=ns_blue, font=text_light())
+Frame2_label_text_track.pack(side=RIGHT)
+
+
+# arrow
+# Frame2_label_icon = Image.open("arrow.png")
+# icon = ImageTk.PhotoImage(Frame2_label_icon)
+# tk.Label(master=Frame2_label_text, image=tkimage, bg="red").pack(side=RIGHT)
+
+
 Frame2.place(x=390, y=220, width=500, height=50)
 
 # reisplanner button
-button1 = Button(master=bottomFrame, text="Plan je reis", relief=FLAT, bg=ns_blue, fg="white", font=text_light())
+button1 = Button(master=bottomFrame, text="Wijzig je reis", relief=FLAT, bg=ns_blue, fg="white", font=text_light())
 button1.place(x=565, y=20, width=150, height=50)
 
 # keep running untill close
