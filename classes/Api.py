@@ -24,7 +24,7 @@ class Api:
         return stations_names
 
     def get_nameAndPassword(self):
-        """These are the login data for the API"""
+        """This is the login data for the API"""
         nameAndPassword = self.nameAndPassword
 
         return nameAndPassword
