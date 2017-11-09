@@ -6,6 +6,7 @@ stations_namen = api.get_station_names()
 nameAndPassword = api.get_nameAndPassword()
 
 def get_url():
+
     woord1 = beginstation(stations_namen).replace(" ", "+")
     woord2 = eindstation(stations_namen).replace(" ", "+")
 

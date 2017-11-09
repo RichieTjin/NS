@@ -2,6 +2,8 @@ from tkinter import *
 from PIL import Image, ImageTk
 import tkinter as tk
 
+from classes import Api
+
 root = Tk()
 root.title("NS Reisplanner")
 root.wm_minsize(width=1280, height=720)
