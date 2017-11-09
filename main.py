@@ -2,35 +2,45 @@ from classes import Api
 
 api = Api.Api()
 
-stations_namen = api.get_station_names()
+stations_names = api.get_station_names()
 nameAndPassword = api.get_nameAndPassword()
 
 def get_url():
+    """Returns the URL of the API"""
+    word1 = startstation(stations_names).replace(" ", "+")
+    word2 = endstation(stations_names).replace(" ", "+")
 
-    woord1 = beginstation(stations_namen).replace(" ", "+")
-    woord2 = eindstation(stations_namen).replace(" ", "+")
+    url_times = "http://webservices.ns.nl/ns-api-treinplanner?fromStation=" + str(word1) + "&toStation=" + str(word2) + "&departure=true"
 
-    url_tijden = "http://webservices.ns.nl/ns-api-treinplanner?fromStation=" + str(woord1) + "&toStation=" + str(woord2) + "&departure=true"
+    return url_times
 
-    return url_tijden
-
-def beginstation(stations_namen):
+def startstation(stations_names):
+    """User inputs his station where he/she wants to departure"""
     while True:
-        beginstation = str(input('Wat is je beginstation? : '))
-        if beginstation in stations_namen:
-            return beginstation
+        startstation = str(input('Wat is je beginstation? : '))
+        if startstation in stations_names:
+            return startstation
         else:
             print('Verkeerde invoer')
 
-def eindstation(stations_namen):
+def endstation(stations_names):
+    """User inputs his station of destination"""
     while True:
-        eindstation = str(input('Wat is je eindstation? : '))
-        if eindstation in stations_namen:
-            return eindstation
+        endstation = str(input('Wat is je eindstation? : '))
+        if endstation in stations_names:
+            return endstation
         else:
-            print('verkeerde invoer')
+            print('Verkeerde invoer')
 
 def get_result():
+    """Using the URL of the API.
+
+    1. Parse into the XML-file
+    2. Make use of a for loop
+    3. Getting to right data
+    4. Print the data for user
+
+    """
     import xmltodict
     import requests
 
@@ -40,17 +50,17 @@ def get_result():
     response = requests.get(url, auth=naamEnWachtwoord)
     xmltodict = xmltodict.parse(response.content)
 
-    for tijden in xmltodict['ReisMogelijkheden']['ReisMogelijkheid']:
-        print('AantalOverstappen: ' + tijden['AantalOverstappen'])
-        print('GeplandeReisTijd: ' + tijden['GeplandeReisTijd'])
-        print('ActueleReisTijd: ' + tijden['ActueleReisTijd'])
-        print('GeplandeVertrekTijd: ' + tijden['GeplandeVertrekTijd'][11:16])
-        print('ActueleVertrekTijd: ' + tijden['ActueleVertrekTijd'][11:16])
-        print('GeplandeAankomstTijd: ' + tijden['GeplandeAankomstTijd'][11:16])
-        print('ActueleAankomstTijd: ' + tijden['ActueleAankomstTijd'][11:16])
+    for time in xmltodict['ReisMogelijkheden']['ReisMogelijkheid']:
+        print('AantalOverstappen: ' + time['AantalOverstappen'])
+        print('GeplandeReisTijd: ' + time['GeplandeReisTijd'])
+        print('ActueleReisTijd: ' + time['ActueleReisTijd'])
+        print('GeplandeVertrekTijd: ' + time['GeplandeVertrekTijd'][11:16])
+        print('ActueleVertrekTijd: ' + time['ActueleVertrekTijd'][11:16])
+        print('GeplandeAankomstTijd: ' + time['GeplandeAankomstTijd'][11:16])
+        print('ActueleAankomstTijd: ' + time['ActueleAankomstTijd'][11:16])
 
-        if tijden['AantalOverstappen'] > '0':
-            for ReisDeel in tijden['ReisDeel']:
+        if time['AantalOverstappen'] > '0':
+            for ReisDeel in time['ReisDeel']:
                 print('Ritnummer: ' + ReisDeel['RitNummer'])
                 print('VervoerType: ' + ReisDeel['VervoerType'])
                 print('Vervoerder: ' + ReisDeel['Vervoerder'])
@@ -65,12 +75,12 @@ def get_result():
                 except TypeError:
                     continue
         else:
-            print('Ritnummer: ' + tijden['ReisDeel']['RitNummer'])
-            print('VervoerType: ' + tijden['ReisDeel']['VervoerType'])
-            print('Vervoerder: ' + tijden['ReisDeel']['Vervoerder'])
+            print('Ritnummer: ' + time['ReisDeel']['RitNummer'])
+            print('VervoerType: ' + time['ReisDeel']['VervoerType'])
+            print('Vervoerder: ' + time['ReisDeel']['Vervoerder'])
 
             try:
-                for ReisStop in tijden['ReisDeel']['ReisStop']:
+                for ReisStop in time['ReisDeel']['ReisStop']:
                     print('Station: ' + ReisStop['Naam'])
                     print('Tijd: ' + ReisStop['Tijd'][11:16])
                     if 'Spoor' in ReisStop:

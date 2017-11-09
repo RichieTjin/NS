@@ -9,17 +9,17 @@ class Api:
     def get_station_names(self):
         import xmltodict
         import requests
-        stations_namen = []
+        stations_names = []
 
         response = requests.post(self.stationNamesUrl, auth=self.nameAndPassword)
         xmltodict = xmltodict.parse(response.content)
 
         for stations in xmltodict['Stations']['Station']:
-            stations_namen.append(stations['Namen']['Kort'])
-            stations_namen.append(stations['Namen']['Middel'])
-            stations_namen.append(stations['Namen']['Lang'])
+            stations_names.append(stations['Namen']['Kort'])
+            stations_names.append(stations['Namen']['Middel'])
+            stations_names.append(stations['Namen']['Lang'])
 
-        return stations_namen
+        return stations_names
 
     def get_nameAndPassword(self):
         nameAndPassword = self.nameAndPassword
