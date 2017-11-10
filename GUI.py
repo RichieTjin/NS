@@ -10,13 +10,15 @@ stations_names = api.get_station_names()
 nameAndPassword = api.get_nameAndPassword()
 
 def clear_text_entry_1():
+    """Clear text after input of the user"""
     entry_1.delete(0, 'end')
 
 def clear_text_entry_2():
+    """Clear text after input of the user"""
     entry_2.delete(0, 'end')
 
 def get_url():
-    """Returns the URL of the API"""
+    """Return the URL of the API"""
     word1 = startstation(stations_names).replace(" ", "+")
     word2 = endstation(stations_names).replace(" ", "+")
 
@@ -66,7 +68,7 @@ def get_result():
     return xmltodict
 
 def TrajectInfo():
-
+    """GUI results for the user"""
     root = Toplevel()
     root.title('Reisoverzicht')
     root.wm_minsize(width=1800, height=720)
@@ -80,14 +82,17 @@ def TrajectInfo():
     # Title styles
     # main title
     def main_title():
+        """Fonts that are in use"""
         return (('Open Sans', 48, 'bold'))
 
     # text bold
     def text_bold():
+        """Fonts that are in use"""
         return (('Open Sans', 12, 'bold'))
 
     # text light
     def text_light():
+        """Fonts that are in use"""
         return (('Open Sans', 12))
 
     # top frame
@@ -105,7 +110,7 @@ def TrajectInfo():
     # bottom frame
     bottomFrame = Frame(master=root)
     bottomFrame.pack(side=BOTTOM)
-    bottomField = Frame(master=bottomFrame, bg=background_yellow, width=1800, height=100)
+    bottomField = Frame(master=bottomFrame, bg=background_yellow, width=1800, height=200)
     bottomField.pack(fill=BOTH)
 
     logo = Image.open("nslogo.png")
@@ -129,11 +134,16 @@ def TrajectInfo():
         Frame_label.pack(side=LEFT)
 
         # Starttime
-        Frame_label_text_start = Label(master=tempname, text="Vertrek: " + time['GeplandeVertrekTijd'][11:16], bg="white", padx=5, fg=ns_blue, font=text_bold())
+        Frame_label_text_start = Label(master=tempname, text= time['GeplandeVertrekTijd'][11:16]+ "    > ", bg="white", padx=5, fg=ns_blue, font=text_bold())
         Frame_label_text_start.pack(side=LEFT)
 
+        # arrow
+        #arrow = Image.open("arrow.png")
+        #icon = ImageTk.PhotoImage(arrow)
+        #tk.Label(master=tempname, image=icon).pack(side=LEFT)
+
         # Endttime
-        Frame_label_text_end = Label(master=tempname, text="Aankomst: " + time['GeplandeAankomstTijd'][11:16], bg="white", padx=5, fg=ns_blue, font=text_bold())
+        Frame_label_text_end = Label(master=tempname, text=time['GeplandeAankomstTijd'][11:16], bg="white", padx=5, fg=ns_blue, font=text_bold())
         Frame_label_text_end.pack(side=LEFT)
 
         # Overstap
@@ -208,15 +218,11 @@ def TrajectInfo():
         # print('ActueleVertrekTijd: ' + time['ActueleVertrekTijd'][11:16])
         # print('ActueleAankomstTijd: ' + time['ActueleAankomstTijd'][11:16])
 
-    # arrow
-    # Frame2_label_icon = Image.open("arrow.png")
-    # icon = ImageTk.PhotoImage(Frame2_label_icon)
-    # tk.Label(master=Frame2_label_text, image=tkimage, bg="red").pack(side=RIGHT)
-
     # keep running untill close
     root.mainloop()
 
 def clear_all():
+    """Clears the first GUI, open the results GUI"""
     get_result()
     TrajectInfo()
 
@@ -276,24 +282,25 @@ title.place(x=390,y=25, width=500)
 
 # beginstation
 entry_1 = Entry(master=mainFrame, justify='center', fg="black", font=text_light())
-entry_label1 = Label(master=entry_1, text="Van:", padx=20, fg=ns_blue ,font=text_bold())
+entry_label1 = Label(master=entry_1, text="Van:",bg='white' , padx=20, fg=ns_blue ,font=text_bold())
 entry_label1.pack(side=LEFT)
 # Clear text button
 icon_button = ImageTk.PhotoImage(icon_cross)
-entry_label_button1 = Button(master=entry_1, bg="white", borderwidth=0, width=20, height=20, image=icon_button, command=clear_text_entry_1)
-entry_label_button1.pack(side=RIGHT)
+entry_label_button1 = Button(master=entry_1, bg="white", borderwidth=0, width=20, height=20,image=icon_button, command=clear_text_entry_1)
+entry_label_button1.pack(side=RIGHT, padx=10)
+
 
 entry_1.insert(0, "Voer het beginstation in")
 entry_1.place(x=390, y=150, width=500, height=50)
 
 # eindstation
 entry_2 = Entry(master=mainFrame, bg="white", justify='center', fg="black", font=text_light())
-entry_label2 = Label(master=entry_2, text="Naar:", padx=20, fg=ns_blue ,font=text_bold())
+entry_label2 = Label(master=entry_2, text="Naar:",bg='white' , padx=20, fg=ns_blue ,font=text_bold())
 entry_label2.pack(side=LEFT)
 # Clear text button
 icon_button2 = ImageTk.PhotoImage(icon_cross)
 entry_label_button2 = Button(master=entry_2, bg="white", borderwidth=0, width=20, height=20, image=icon_button2, command=clear_text_entry_2)
-entry_label_button2.pack(side=RIGHT)
+entry_label_button2.pack(side=RIGHT, padx=10)
 
 entry_2.insert(0, 'Voer het eindstation in')
 entry_2.place(x=390, y=225, width=500, height=50)
