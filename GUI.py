@@ -116,7 +116,7 @@ def TrajectInfo():
     title = Label(master=topFrame, text="Reisoverzicht", fg=ns_blue, bg=background_yellow, font=main_title())
     title.place(x=600, y=25, width=500)
 
-    # reisoverzicht
+    # Reisoverzicht
     y = 30
     frames = []
     for index, time in enumerate(get_result()['ReisMogelijkheden']['ReisMogelijkheid']):
@@ -124,7 +124,7 @@ def TrajectInfo():
         tempname = str(index) + "test"
         tempname = Frame(master=mainFrame, bg="white")
 
-        # blue stripe
+        # Blue stripe
         Frame_label = Label(master=tempname, bg=ns_blue, height=100)
         Frame_label.pack(side=LEFT)
 
